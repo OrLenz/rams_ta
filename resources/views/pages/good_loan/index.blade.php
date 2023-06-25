@@ -69,7 +69,7 @@
                             <td>{{ $filter_item->date_return }}</td>
                             <td>{{ $filter_item->status }}</td>
                             <td>
-                                @if ($filter_item->status === 'DIPINJAM')
+                                @if ($filter_item->status === 'DIPINJAM' || $filter_item->date_return == FALSE)
                                 <a href="{{ route('good_loan.edit', $filter_item->id) }}" class="btn btn-info">
                                     <i class="fa fa-pencil-alt"></i>
                                 </a>
@@ -77,7 +77,7 @@
                                 <a href="{{ route('good_loan.show', $filter_item->id) }}" class="btn btn-primary">
                                     Detail
                                 </a>
-                                @if ($filter_item->status === 'DIKEMBALIKAN')
+                                @if ($filter_item->status === 'DIKEMBALIKAN' && $filter_item->date_return == TRUE)
                                 <form action="{{ route('good_loan.destroy', $filter_item->id) }}" method="POST"
                                     class="d-inline">
                                     @csrf

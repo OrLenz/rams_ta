@@ -70,9 +70,9 @@
                         value="{{ old('source_of_funds') }}">
                 </div>
                 <div class="form-group">
-                    <label for="employees_id">Nama Karyawan</label>
-                    <select name="employees_id" class="form-control">
-                        <option value="">Pilih Karyawan</option>
+                    {{-- <label for="employees_id">Nama Karyawan</label> --}}
+                    <select name="employees_id" class="form-control" hidden>
+                        {{-- <option value="">Pilih Karyawan</option> --}}
                         @foreach ($employees as $employee)
                         <option value="{{ $employee->id }}">
                             {{ $employee->employee_name }}
@@ -81,9 +81,9 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="chart_of_accounts_id">Nama Akun</label>
-                    <select name="chart_of_accounts_id" class="form-control">
-                        <option value="">Pilih Nama Akun</option>
+                    {{-- <label for="chart_of_accounts_id">Nama Akun</label> --}}
+                    <select name="chart_of_accounts_id" class="form-control" hidden>
+                        {{-- <option value="">Pilih Nama Akun</option> --}}
                         @foreach ($chart_of_accounts as $chart_of_account)
                         <option value="{{ $chart_of_account->id }}">
                             {{ $chart_of_account->account_name }}

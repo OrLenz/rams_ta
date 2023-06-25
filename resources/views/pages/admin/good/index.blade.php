@@ -40,8 +40,8 @@
                             <th>Satuan</th>
                             <th>Harga/unit</th>
                             <th>Sumber Dana</th>
-                            <th>Nama Karyawan</th>
-                            <th>Nama Akun</th>
+                            {{-- <th>Nama Karyawan</th>
+                            <th>Nama Akun</th> --}}
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -56,8 +56,8 @@
                             <td>{{ $item->unit }}</td>
                             <td>{{ $item->price }}</td>
                             <td>{{ $item->source_of_funds }}</td>
-                            <td>{{ $item->employee->employee_name }}</td>
-                            <td>{{ $item->chart_of_account->account_name }}</td>
+                            {{-- <td>{{ $item->employee->employee_name }}</td>
+                            <td>{{ $item->chart_of_account->account_name }}</td> --}}
                             <td>
                                 <a href="{{ route('good.edit', $item->id) }}" class="btn btn-info">
                                     <i class="fa fa-pencil-alt"></i>

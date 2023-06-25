@@ -68,7 +68,7 @@
                             <th>Nama Barang</th>
                             <th>Ruangan</th>
                             <th>Jumlah</th>
-                            <th>Supplier</th>
+                            {{-- <th>Supplier</th> --}}
                             <th>Tanggal Masuk</th>
                             <th>Kondisi</th>
                             <th>Action</th>
@@ -82,7 +82,7 @@
                             <td>{{ $filter_item->good->stuff }}</td>
                             <td>{{ $filter_item->room->room_name }}</td>
                             <td>{{ $filter_item->stock }}</td>
-                            <td>{{ $filter_item->supplier->supplier_name }}</td>
+                            {{-- <td>{{ $filter_item->supplier->supplier_name }}</td> --}}
                             <td>{{ $filter_item->date_of_entry }}</td>
                             <td>{{ $filter_item->condition }}</td>
                             <td>

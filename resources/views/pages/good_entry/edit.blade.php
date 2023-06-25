@@ -42,8 +42,8 @@
                         value="{{ $filter_items->stock }}">
                 </div>
                 <div class="form-group">
-                    <label for="suppliers_id">Nama Supplier</label>
-                    <select name="suppliers_id" class="form-control">
+                    {{-- <label for="suppliers_id">Nama Supplier</label> --}}
+                    <select name="suppliers_id" class="form-control" hidden>
                         <option value="{{ $filter_items->suppliers_id }}">Pilih Supplier</option>
                         @foreach ($suppliers as $supplier)
                         <option value="{{ $supplier->id }}">

@@ -26,6 +26,10 @@ class GoodLoanController extends Controller
         $end = Carbon::parse(request('end_date'));
         $now_date = Carbon::now();
 
+        if (request('end_date') < request('start_date')) {
+            return redirect()->back()->with('error', 'Tanggal akhir tidak boleh kurang dari tanggal awal');
+        }
+
         if (request('start_date') && request('end_date') && request('status')) {
             $filter_items = GoodLoan::with(['room', 'details'])->whereDate('created_at', '<=', $end)
                 ->whereDate('created_at', '>=', $start)
@@ -102,12 +106,12 @@ class GoodLoanController extends Controller
             
             $good_entry = GoodEntry::with('loan_details')->where('id', 'like', $data['goods_id'])->first();
 
-            if ($qty[$key] && $good_entry->stock > 0) {
+            if ($qty[$key] && $good_entry->stock > 0 && $good_entry->stock >= $qty[$key]) {
                 $good_entry->stock -= (int) $qty[$key];
                 $good_entry->save();
             } else {
                 GoodLoan::where('id', 'like', $loan->id)->delete();
-                return redirect()->back()->with(['error' => 'Stok pada barang tersebut sudah habis!']);
+                return redirect()->back()->with(['error' => 'Stok pada barang tersebut sudah habis atau kurang!']);
             }
             LoanDetail::insert($data);
         }
@@ -165,19 +169,22 @@ class GoodLoanController extends Controller
 
         $filter_item = GoodLoan::findOrFail($id);
 
-        $filter_item->update($data);
+        if($request->date_return <= $request->date_borrow) {
+            return redirect()->back()->with(['error' => 'Tanggal pengembalian tidak boleh kurang dari tanggal peminjaman!']);
+        }
 
-        $qty = $request->qty;
+        $qty = $filter_item->qty;
         foreach ($request->goods_id as $key => $goods_id) {
-            $loan = [$goods_id];
+            $loan = $goods_id;
 
             $good_entry = GoodEntry::with(['loan_details'])->where('id', 'like', $loan)->first();
 
-            if ($filter_item->status == 'DIKEMBALIKAN') {
+            if ($request->status == 'DIKEMBALIKAN' && $request->date_return == TRUE) {
                 $good_entry->stock += (int) $qty[$key];
             }
             $good_entry->save();
         }
+        $filter_item->update($data);
 
         return redirect()->route('good_loan.index');
     }
@@ -191,8 +198,12 @@ class GoodLoanController extends Controller
     public function destroy($id)
     {
         $filter_item = GoodLoan::findOrFail($id);
-        $loan_details = LoanDetail::where('loans_id', 'like', $id)->get();
-        $loan_details->delete();
+        while($loan_details = LoanDetail::where('loans_id', 'like', $id)->first()) {
+            $loan_details->delete();
+            if(!$loan_details) {
+                break;
+            }
+        }
         $filter_item->delete();
 
         return redirect()->route('good_loan.index');

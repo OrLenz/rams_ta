@@ -51,9 +51,9 @@
                         value="{{ old('stock') }}">
                 </div>
                 <div class="form-group">
-                    <label for="suppliers_id">Nama Supplier</label>
-                    <select name="suppliers_id" class="form-control">
-                        <option value="">Pilih Supplier</option>
+                    {{-- <label for="suppliers_id">Nama Supplier</label> --}}
+                    <select name="suppliers_id" class="form-control" hidden>
+                        {{-- <option value="">Pilih Supplier</option> --}}
                         @foreach ($suppliers as $supplier)
                         <option value="{{ $supplier->id }}">
                             {{ $supplier->supplier_name }}

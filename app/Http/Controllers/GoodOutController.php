@@ -25,15 +25,17 @@ class GoodOutController extends Controller
         $end = Carbon::parse(request('end_date'));
         $now_date = Carbon::now();
 
+        if(request('end_date') < request('start_date')) {
+            return redirect()->back()->with('error', 'Tanggal akhir tidak boleh kurang dari tanggal awal');
+        }
+
         if (request('start_date') && request('end_date') && request('department')) {
             $filter_items = GoodOut::with(['good_entry'])->whereDate('created_at', '<=', $end)
                 ->whereDate('created_at', '>=', $start)
                 ->where('rooms_id', 'like', request('department') . '%')->paginate(10);
-        } elseif (request('start_date') && request('end_date')) {
+        } elseif (request('start_date') && request('end_date') && !(request('department'))) {
             $filter_items = GoodOut::with(['good_entry'])->whereDate('created_at', '<=', $end)
                 ->whereDate('created_at', '>=', $start)->paginate(10);
-        } elseif (request('department')) {
-            $filter_items = GoodOut::with(['good_entry'])->where('rooms_id', 'like', request('department') . '%');
         } else {
             $filter_items = GoodOut::with(['good_entry'])->whereMonth('created_at', $now_date)
                 ->paginate(10);
@@ -77,12 +79,12 @@ class GoodOutController extends Controller
 
         $good_entry = GoodEntry::where('id', 'like', $data['warehouses_id'])->first();
 
-        if($data['quantity'] && $good_entry->stock > 0) {
+        if($data['quantity'] && $good_entry->stock > 0 && $good_entry->stock >= (int) $data['quantity']) {
             $good_entry->stock -= (int) $data['quantity'];
             $good_entry->save();
         } else {
             GoodOut::where('id', 'like', $good_out->id)->delete();
-            return redirect()->back()->with(['error' => 'Stok pada barang tersebut sudah habis!']);
+            return redirect()->back()->with(['error' => 'Stok pada barang tersebut sudah habis atau kurang!']);
         }
 
         return redirect()->route('good_out.index');

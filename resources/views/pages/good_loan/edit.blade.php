@@ -19,6 +19,12 @@
     </div>
     @endif
 
+    @if (session()->has('error'))
+    <div class="alert alert-danger">
+        {{ session()->get('error') }}
+    </div>
+    @endif
+
     <div class="card shadow">
         <div class="card-body">
             <form action="{{ route('good_loan.update', $filter_items->id) }}" method="POST">
@@ -48,7 +54,7 @@
                 <div class="form-group">
                     <label for="date_return">Tanggal Kembali</label>
                     <input type="date" name="date_return" class="form-control" placeholder="Tanggal Kembali"
-                        value="{{ $filter_items->date_return }}">
+                        value="{{ $filter_items->date_return }}" required>
                 </div>
                 <table class="table table-bordered">
                     <thead>
@@ -71,7 +77,7 @@
                             </td>
                             <td class="align-middle p-1">
                                 <input type="text" class="text-center w-100 border-0" name="qty[]"
-                                    value="{{ $detail->qty }}">
+                                    value="{{ $detail->qty }}" readonly>
                             </td>
                         </tr>
                     </tbody>

@@ -102,7 +102,6 @@
                             </tfoot>
                         </table>
                         <div class="row">
-                            @if (Auth::user()->roles === 'ADMIN')
                             <div class="col-md-6">
                                 <label for="status" class="control-label">Status</label>
                                 <select name="status" id="status" class="form-control form-control-sm rounded-0">
@@ -110,7 +109,6 @@
                                     <option value="DIKEMBALIKAN">Dikembalikan</option>
                                 </select>
                             </div>
-                            @endif
                         </div>
                     </div>
                 </div>

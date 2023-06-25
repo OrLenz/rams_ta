@@ -60,8 +60,8 @@
                         value="{{ $items->source_of_funds }}">
                 </div>
                 <div class="form-group">
-                    <label for="employees_id">Nama Karyawan</label>
-                    <select name="employees_id" class="form-control">
+                    {{-- <label for="employees_id">Nama Karyawan</label> --}}
+                    <select name="employees_id" class="form-control" hidden>
                         <option value="{{ $items->employees_id }}">Tidak Ubah nama karyawan</option>
                         @foreach ($employees as $employee)
                         <option value="{{ $employee->id }}">
@@ -71,8 +71,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="chart_of_accounts_id">Nama Akun</label>
-                    <select name="chart_of_accounts_id" class="form-control">
+                    {{-- <label for="chart_of_accounts_id">Nama Akun</label> --}}
+                    <select name="chart_of_accounts_id" class="form-control" hidden>
                         <option value="{{ $items->chart_of_accounts_id }}">Pilih Nama Akun</option>
                         @foreach ($chart_of_accounts as $chart_of_account)
                         <option value="{{ $chart_of_account->id }}">
@@ -83,8 +83,8 @@
                 </div>
                 <div class="form-group">
                     <label for="detail">Detail Barang</label>
-                    <textarea name="detail" class="form-control" cols="30" rows="10" value="{{ $items->detail }}"
-                        placeholder="Detail Barang"></textarea>
+                    <input type="text" name="detail" class="form-control" cols="30" rows="10" value="{{ $items->detail }}"
+                        placeholder="Detail Barang">
                 </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">

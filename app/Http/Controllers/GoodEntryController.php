@@ -28,6 +28,10 @@ class GoodEntryController extends Controller
         $end = Carbon::parse(request('end_date'));
         $now_date = Carbon::now();
 
+        if(request('end_date') < request('start_date')) {
+            return redirect()->back()->with('error', 'Tanggal akhir tidak boleh kurang dari tanggal awal');
+        }
+
         if (request('start_date') && request('end_date') && request('search')) {
             $filter_items = GoodEntry::with(['good', 'room'])->whereDate('date_of_entry', '>=', $start)
                 ->whereDate('date_of_entry', '<=', $end)    
@@ -157,6 +161,10 @@ class GoodEntryController extends Controller
         $start = Carbon::parse(request('start_date'));
         $end = Carbon::parse(request('end_date'));
         $now = Carbon::now();
+
+        if(request('end_date') < request('start_date')) {
+            return redirect()->back()->with('error', 'Tanggal akhir tidak boleh kurang dari tanggal awal');
+        }
 
         if (request('start_date') && request('end_date') && request('search')) {
             $get_all_entries = GoodEntry::with(['good', 'room'])->whereDate('date_of_entry', '<=', $end)
